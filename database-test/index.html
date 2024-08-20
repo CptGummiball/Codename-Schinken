@@ -6,42 +6,7 @@
     <title>Codename Schinken</title>
     <link rel="stylesheet" href="style.css">
     <!-- Firebase SDKs (Module-Format) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-        import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-database.js";
-        import firebaseConfig from "./firebase-config.js";
-
-        // Firebase initialisieren
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-
-        // Funktionen für die Interaktion mit der Datenbank
-        function getCounterValue() {
-            const counterRef = ref(database, 'counter');
-            return get(counterRef).then((snapshot) => {
-                if (snapshot.exists()) {
-                    return snapshot.val();
-                } else {
-                    return 0;
-                }
-            });
-        }
-
-        function incrementCounter() {
-            const counterRef = ref(database, 'counter');
-            return getCounterValue().then((count) => {
-                return update(counterRef, {
-                    counter: (count || 0) + 1
-                });
-            });
-        }
-
-        // Stelle die Funktionen global bereit
-        window.firebaseDatabase = {
-            getCounterValue,
-            incrementCounter
-        };
-    </script>
+    <script type="module" src="firebase-config.js"></script>
 </head>
 <body>
 

@@ -1,4 +1,4 @@
-// Lade die Firebase-Funktionen von der globalen `firebaseDatabase`-Variable
+// script.js
 const { getCounterValue, incrementCounter } = window.firebaseDatabase;
 
 function createSchinken() {
