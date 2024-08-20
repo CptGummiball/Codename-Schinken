@@ -1,3 +1,5 @@
+let schinkenCount = 0;
+
 function createSchinken() {
     const schinken = document.createElement('div');
     schinken.className = 'schinken';
@@ -8,6 +10,10 @@ function createSchinken() {
     schinken.addEventListener('animationend', () => {
         schinken.remove();
     });
+
+    // Schinken zählen
+    schinkenCount++;
+    updateSchinkenCounter();
 }
 
 function startParty() {
@@ -18,6 +24,14 @@ function startParty() {
     // Startbildschirm ausblenden
     document.getElementById('start-screen').style.display = 'none';
 
+    // Schinken Counter sichtbar machen
+    document.getElementById('schinken-counter').style.display = 'block';
+
     // Schinken Intervall
     setInterval(createSchinken, 300);
+}
+
+function updateSchinkenCounter() {
+    const counterElement = document.getElementById('schinken-counter');
+    counterElement.textContent = `Schmackhafte Schinken: ${schinkenCount}`;
 }

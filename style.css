@@ -9,6 +9,21 @@ body {
     color: white;
     font-family: Arial, sans-serif;
     text-align: center;
+    position: relative; /* Sicherstellen, dass der Zähler relativ zum Body positioniert wird */
+}
+
+#schinken-counter {
+    position: fixed;
+    bottom: 10px; /* Abstand vom unteren Rand */
+    left: 50%;
+    transform: translateX(-50%); /* Zentriert den Counter horizontal */
+    font-size: 24px;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    display: none; /* Anfangs nicht sichtbar */
+    z-index: 10; /* Sicherstellen, dass der Zähler über anderen Elementen liegt */
 }
 
 .start-button {
