@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codename Schinken</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDKs (Module-Format) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-database.js";
+        import firebaseConfig from "./firebase-config.js";
+
+        // Firebase initialisieren
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Funktionen für die Interaktion mit der Datenbank
+        function getCounterValue() {
+            const counterRef = ref(database, 'counter');
+            return get(counterRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    return snapshot.val();
+                } else {
+                    return 0;
+                }
+            });
+        }
+
+        function incrementCounter() {
+            const counterRef = ref(database, 'counter');
+            return getCounterValue().then((count) => {
+                return update(counterRef, {
+                    counter: (count || 0) + 1
+                });
+            });
+        }
+
+        // Stelle die Funktionen global bereit
+        window.firebaseDatabase = {
+            getCounterValue,
+            incrementCounter
+        };
+    </script>
+</head>
+<body>
+
+<div id="start-screen">
+    <button class="start-button" onclick="startParty()">Start</button>
+</div>
+
+<audio id="background-music" loop>
+    <source src="assets/musik.mp3" type="audio/mpeg">
+    Dein Browser unterstützt kein HTML5 Audio.
+</audio>
+
+<div id="counter-display"></div>
+
+<script type="module" src="script.js"></script>
+
+</body>
+</html>
