@@ -1,9 +1,25 @@
 let schinkenCount = 0;
+let lastCreationTime = 0;
+const creationInterval = 300; // Intervall in Millisekunden
+const creationIntervalMs = creationInterval; // Intervall in Millisekunden
 
 function createSchinken() {
     const schinken = document.createElement('div');
     schinken.className = 'schinken';
-    schinken.style.left = Math.random() * 100 + 'vw';
+
+    // Ermitteln der Bildschirmgröße
+    const viewportWidth = window.innerWidth;
+
+    // Die feste Größe des Schinkens
+    const schinkenWidth = 50; // Breite des Schinkens
+
+    // Positioniere Schinken innerhalb des sichtbaren Bereichs
+    const maxLeft = viewportWidth - schinkenWidth;
+    const randomLeft = Math.random() * maxLeft;
+
+    schinken.style.left = `${randomLeft}px`;
+    schinken.style.top = `-${schinkenWidth}px`; // Schinken beginnt oben außerhalb des sichtbaren Bereichs
+
     document.body.appendChild(schinken);
 
     // Schinken entfernen
@@ -14,6 +30,19 @@ function createSchinken() {
     // Schinken zählen
     schinkenCount++;
     updateSchinkenCounter();
+}
+
+function updateSchinkenCounter() {
+    const counterElement = document.getElementById('schinken-counter');
+    counterElement.textContent = `Schinken: ${schinkenCount}`;
+}
+
+function gameLoop(currentTime) {
+    if (currentTime - lastCreationTime >= creationIntervalMs) {
+        createSchinken();
+        lastCreationTime = currentTime;
+    }
+    requestAnimationFrame(gameLoop);
 }
 
 function startParty() {
@@ -27,11 +56,7 @@ function startParty() {
     // Schinken Counter sichtbar machen
     document.getElementById('schinken-counter').style.display = 'block';
 
-    // Schinken Intervall
-    setInterval(createSchinken, 300);
-}
-
-function updateSchinkenCounter() {
-    const counterElement = document.getElementById('schinken-counter');
-    counterElement.textContent = `Schmackhafte Schinken: ${schinkenCount}`;
+    // Start der Spielschleife
+    lastCreationTime = performance.now();
+    requestAnimationFrame(gameLoop);
 }
